@@ -193,7 +193,7 @@ void Server::SendToClient(QTcpSocket* clientSocket, const QString& str)
 
     QByteArray data;
     QDataStream out(&data, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_10);
+    out.setVersion(QDataStream::Qt_DefaultCompiledVersion);
     out << str;
 
     qint64 written = clientSocket->write(data);
@@ -216,7 +216,7 @@ void Server::SendImageToClient(QTcpSocket* clientSocket, int user_id, const QByt
 
     QByteArray fullData;
     QDataStream out(&fullData, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_10);
+    out.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
     out << description;
     out.writeRawData(imageData.constData(), imageData.size());
@@ -243,7 +243,7 @@ void Server::SendImageToClient(QTcpSocket* clientSocket, int measurement_id, con
 
     QByteArray fullData;
     QDataStream out(&fullData, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_10);
+    out.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
     out << description;
     out.writeRawData(imageData.constData(), imageData.size());
@@ -337,7 +337,7 @@ void Server::slotReadyRead()
                 break; // ждём ещё данных
 
             QDataStream sizeStream(si.buffer.left(sizeof(quint32)));
-            sizeStream.setVersion(QDataStream::Qt_6_10);
+            sizeStream.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
             // QString в QDataStream: сначала quint32 длина в байтах, потом данные UTF-16
             quint32 strByteLen;
@@ -364,7 +364,7 @@ void Server::slotReadyRead()
         si.expectedSize = 0;
 
         QDataStream in(packet);
-        in.setVersion(QDataStream::Qt_6_10);
+        in.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
         QString command;
         in >> command;
